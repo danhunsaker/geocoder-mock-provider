@@ -1,5 +1,5 @@
 # Mock Geocoder provider
-[![Build Status](https://travis-ci.org/danhunsaker/geocoder-mock-provider.svg?branch=master)](http://travis-ci.org/danhunsaker/geocoder-mock-provider)
+[![Build Status](https://travis-ci.org/danhunsaker/geocoder-mock-provider.svg?branch=main)](http://travis-ci.org/danhunsaker/geocoder-mock-provider)
 [![Latest Stable Version](https://poser.pugx.org/danhunsaker/geocoder-mock-provider/v/stable)](https://packagist.org/packages/danhunsaker/geocoder-mock-provider)
 [![Total Downloads](https://poser.pugx.org/danhunsaker/geocoder-mock-provider/downloads)](https://packagist.org/packages/danhunsaker/geocoder-mock-provider)
 [![Monthly Downloads](https://poser.pugx.org/danhunsaker/geocoder-mock-provider/d/monthly.png)](https://packagist.org/packages/danhunsaker/geocoder-mock-provider)
@@ -21,7 +21,19 @@ composer require danhunsaker/geocoder-mock-provider
 You must supply the values that will be generated as arguments to the constructor :
 
 ```php
-$provider = new \Danhunsaker\Geocoder\Provider\Mock($httpClient, [-77.0365739, 38.8976633], ['number' => '1600', 'street' => 'Pennsylvania Avenue', 'city' => 'Washington', 'state' => 'DC']);
+$provider = new \Danhunsaker\Geocoder\Provider\Mock(
+    $httpClient,
+    [-77.0365739, 38.8976633],
+    [
+        'streetNumber' => '1600',
+        'streetName' => 'Pennsylvania Avenue',
+        'locality' => 'Washington',
+        'adminLevels' => [
+            'level' => 1,
+            'code' => 'DC',
+        ],
+    ],
+);
 ```
 
 **THIS PROVIDER DOES NOT PROVIDE ACTUAL GEOCODING DATA. IT IS MEANT FOR USE WHEN WRITING TESTS _ONLY_.**
