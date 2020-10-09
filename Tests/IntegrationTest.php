@@ -38,7 +38,7 @@ class IntegrationTest extends ProviderIntegrationTest
 
     protected function createProvider(HttpClient $httpClient)
     {
-        return new Mock($httpClient, [51.5033, -0.1276], ['number' => '10', 'street' => 'Downing St', 'city' => 'London']);
+        return new Mock($httpClient, [51.5033, -0.1276], ['streetNumber' => '10', 'streetName' => 'Downing St', 'locality' => 'London']);
     }
 
     protected function getCacheDir()

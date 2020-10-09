@@ -65,48 +65,11 @@ final class Mock extends AbstractHttpProvider implements Provider
      */
     public function geocodeQuery(GeocodeQuery $query): Collection
     {
-        $builder = new AddressBuilder($this->getName());
-
-        foreach (['state', 'county'] as $i => $tagName) {
-            if (\array_key_exists($tagName, $this->address)) {
-                $builder->addAdminLevel($i + 1, $this->address[$tagName], '');
-            }
-        }
-
-        foreach (['zip', 'postalCode', 'code'] as $postalCodeField) {
-            if (array_key_exists($postalCodeField, $this->address)) {
-                $postalCodeFieldContent = $this->address[$postalCodeField];
-
-                if (!empty($postalCodeFieldContent)) {
-                    $builder->setPostalCode($postalCodeFieldContent);
-
-                    break;
-                }
-            }
-        }
-
-        foreach (['city', 'town', 'village', 'hamlet'] as $localityField) {
-            if (array_key_exists($localityField, $this->address)) {
-                $localityFieldContent = $this->address[$localityField];
-
-                if (!empty($localityFieldContent)) {
-                    $builder->setLocality($localityFieldContent);
-
-                    break;
-                }
-            }
-        }
-
-        $builder->setStreetNumber($this->address['number'] ?? null);
-        $builder->setStreetName($this->address['street'] ?? $this->address['road'] ?? null);
-        $builder->setSubLocality($this->address['suburb'] ?? null);
-        $builder->setCountry($this->address['country'] ?? null);
-        $builder->setCountryCode(isset($this->address['country_code']) ? strtoupper($this->address['country_code']) : null);
-
-        // Required by the integration tests
-        $builder->setCoordinates(floatval($this->latLong[0]), floatval($this->latLong[1]));
-
-        return new AddressCollection([$builder->build(Address::class)]);
+        return new AddressCollection([Address::createFromArray($this->address + [
+            'providedBy' => $this->getName(),
+            'latitude' => $this->latLong[0],
+            'longitude' => $this->latLong[1],
+        ])]);
     }
 
     /**
@@ -114,11 +77,11 @@ final class Mock extends AbstractHttpProvider implements Provider
      */
     public function reverseQuery(ReverseQuery $query): Collection
     {
-        $builder = new AddressBuilder($this->getName());
-
-        $builder->setCoordinates(floatval($this->latLong[0]), floatval($this->latLong[1]));
-
-        return new AddressCollection([$builder->build(Address::class)]);
+        return new AddressCollection([Address::createFromArray($this->address + [
+            'providedBy' => $this->getName(),
+            'latitude' => $this->latLong[0],
+            'longitude' => $this->latLong[1],
+        ])]);
     }
 
     /**
