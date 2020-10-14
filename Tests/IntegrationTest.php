@@ -23,8 +23,6 @@ class IntegrationTest extends ProviderIntegrationTest
      * @var array with functionName => reason
      */
     protected $skippedTests = [
-        'testGeocodeQueryWithNoResults' => 'Empty responses are not supported by this provider',
-        'testReverseQueryWithNoResults' => 'Empty responses are not supported by this provider',
         'testExceptions' => 'Throwng exceptions is not supported by this provider',
     ];
 
@@ -38,7 +36,7 @@ class IntegrationTest extends ProviderIntegrationTest
 
     protected function createProvider(HttpClient $httpClient)
     {
-        return new Mock($httpClient, [51.5033, -0.1276], ['streetNumber' => '10', 'streetName' => 'Downing St', 'locality' => 'London']);
+        return new Mock($httpClient, [51.5033, -0.1276], ['streetNumber' => '10', 'streetName' => 'Downing St', 'locality' => 'London', 'countryCode' => 'UK']);
     }
 
     protected function getCacheDir()

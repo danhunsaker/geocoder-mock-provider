@@ -65,11 +65,52 @@ final class Mock extends AbstractHttpProvider implements Provider
      */
     public function geocodeQuery(GeocodeQuery $query): Collection
     {
-        return new AddressCollection([Address::createFromArray($this->address + [
+        $address = Address::createFromArray($this->address + [
             'providedBy' => $this->getName(),
             'latitude' => $this->latLong[0],
             'longitude' => $this->latLong[1],
-        ])]);
+        ]);
+
+        $match = true;
+
+        foreach (explode(' ', $query->getText()) as $part) {
+            $part = trim($part, ',');
+
+            if ($part === (string)$address->getStreetNumber()) {
+                continue;
+            }
+
+            if (stripos($address->getStreetName(), $part) !== false) {
+                continue;
+            }
+
+            if ($part === $address->getLocality()) {
+                continue;
+            }
+
+            foreach ($address->getAdminLevels() as $level) {
+                if ($part === $level['code'] || $part === $level['name']) {
+                    continue 2;
+                }
+            }
+
+            if ($part === (string)$address->getPostalCode()) {
+                continue;
+            }
+
+            if (!empty($address->getCountry()) && ($part === $address->getCountry()->getName() || $part === $address->getCountry()->getCode())) {
+                continue;
+            }
+
+            $match = false;
+            break;
+        }
+
+        if ($match) {
+            return new AddressCollection([$address]);
+        }
+
+        return new AddressCollection([]);
     }
 
     /**
@@ -77,11 +118,15 @@ final class Mock extends AbstractHttpProvider implements Provider
      */
     public function reverseQuery(ReverseQuery $query): Collection
     {
-        return new AddressCollection([Address::createFromArray($this->address + [
-            'providedBy' => $this->getName(),
-            'latitude' => $this->latLong[0],
-            'longitude' => $this->latLong[1],
-        ])]);
+        if ($query->getCoordinates()->getLatitude() == $this->latLong[0] && $query->getCoordinates()->getLongitude() == $this->latLong[1]) {
+            return new AddressCollection([Address::createFromArray($this->address + [
+                'providedBy' => $this->getName(),
+                'latitude' => $this->latLong[0],
+                'longitude' => $this->latLong[1],
+            ])]);
+        }
+
+        return new AddressCollection([]);
     }
 
     /**

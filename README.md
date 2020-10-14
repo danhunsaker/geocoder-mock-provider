@@ -23,16 +23,22 @@ You must supply the values that will be generated as arguments to the constructo
 ```php
 $provider = new \Danhunsaker\Geocoder\Provider\Mock(
     $httpClient,
-    [-77.0365739, 38.8976633],
+    [38.8976633, -77.0365739],
     [
         'streetNumber' => '1600',
-        'streetName' => 'Pennsylvania Avenue',
+        'streetName' => 'Pennsylvania Avenue Northwest',
+        'postalCode' => '20500',
         'locality' => 'Washington',
         'adminLevels' => [
-            'level' => 1,
-            'code' => 'DC',
+            1 => [
+                'level' => 1,
+                'code' => 'DC',
+                'name' => 'District of Columbia',
+            ],
         ],
-    ],
+        'country' => 'United States',
+        'countryCode' => 'US',
+    ]
 );
 ```
 
