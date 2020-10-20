@@ -89,7 +89,7 @@ final class Mock extends AbstractHttpProvider implements Provider
             }
 
             foreach ($address->getAdminLevels() as $level) {
-                if ($part === $level['code'] || $part === $level['name']) {
+                if ($part === $level->getCode() || $part === $level->getName()) {
                     continue 2;
                 }
             }
