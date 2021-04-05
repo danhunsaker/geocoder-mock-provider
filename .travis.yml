@@ -1,12 +1,16 @@
 language: php
 
-php: 7.2
+php:
+    - 7.3
+    - 7.4
+    - 8.0
+    - nightly
 
 install:
     - composer update --prefer-stable --prefer-dist
 
 script:
-    - composer test-ci
+    - XDEBUG_MODE=coverage composer test-ci
 
 after_success:
     - wget https://scrutinizer-ci.com/ocular.phar

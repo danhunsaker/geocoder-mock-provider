@@ -23,7 +23,7 @@ class IntegrationTest extends ProviderIntegrationTest
      * @var array with functionName => reason
      */
     protected $skippedTests = [
-        'testExceptions' => 'Throwng exceptions is not supported by this provider',
+        'testExceptions' => 'Throwing exceptions is not supported by this provider',
     ];
 
     protected $testAddress = true;
