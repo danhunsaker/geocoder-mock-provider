@@ -21,7 +21,7 @@ composer require danhunsaker/geocoder-mock-provider
 You must supply the values that will be generated as arguments to the constructor :
 
 ```php
-$provider = new \Danhunsaker\Geocoder\Provider\Mock(
+$provider = new \Danhunsaker\Geocoder\Provider\Mock\Mock(
     $httpClient,
     [38.8976633, -77.0365739],
     [
