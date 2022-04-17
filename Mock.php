@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Danhunsaker\Geocoder\Provider\Mock;
 
 use Geocoder\Collection;
+use Geocoder\Exception\InvalidArgument;
 use Geocoder\Location;
 use Geocoder\Model\Address;
 use Geocoder\Model\AddressBuilder;
@@ -52,11 +53,11 @@ final class Mock extends AbstractHttpProvider implements Provider
         $this->address = $address;
 
         if (empty($this->latLong)) {
-            throw new \InvalidArgument('The Lat/Long must be set to use the Mock provider.');
+            throw new InvalidArgument('The Lat/Long must be set to use the Mock provider.');
         }
 
         if (empty($this->address)) {
-            throw new \InvalidArgument('The Address must be set to use the Mock provider.');
+            throw new InvalidArgument('The Address must be set to use the Mock provider.');
         }
     }
 
